@@ -11,7 +11,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
@@ -51,7 +51,7 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = %i[request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -76,20 +76,21 @@ Rails.application.configure do
   #   user_name: ENV["GMAIL_USERNAME"],
   #   password: ENV["GMAIL_PASSWORD"]
   # }
-  if ENV["SMTP_ADDRESS"].present?
+  if ENV['SMTP_ADDRESS'].present?
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.default_options = { from: ENV["SMTP_EMAIL_FROM"], to: ENV["SMTP_EMAIL_TO"] }
+    config.action_mailer.default_options = {
+      from: ENV['SMTP_EMAIL_FROM'], to: ENV['SMTP_EMAIL_TO']
+    }
     config.action_mailer.smtp_settings = {
-      address: ENV["SMTP_ADDRESS"],
-      port: ENV["SMTP_PORT"],
-      domain: ENV["SMTP_DOMAIN"],
-      authentication: ENV["SMTP_AUTHENTICATION"],
-      enable_starttls_auto: ENV["SMTP_ENABLE_STARTTLS_AUTO"],
-      user_name: ENV["SMTP_USERNAME"],
-      password: ENV["SMTP_PASSWORD"]
+      address: ENV['SMTP_ADDRESS'],
+      port: ENV['SMTP_PORT'],
+      domain: ENV['SMTP_DOMAIN'],
+      authentication: ENV['SMTP_AUTHENTICATION'],
+      enable_starttls_auto: ENV['SMTP_ENABLE_STARTTLS_AUTO'],
+      user_name: ENV['SMTP_USERNAME'],
+      password: ENV['SMTP_PASSWORD']
     }
   end
-
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -105,10 +106,10 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"] == "true"
-    logger           = ActiveSupport::Logger.new(STDOUT)
+  if ENV['RAILS_LOG_TO_STDOUT'] == 'true'
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
@@ -134,4 +135,6 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  config.middleware.insert 0, Rack::WWWhisper
 end

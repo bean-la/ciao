@@ -47,6 +47,7 @@ end
 
 group :production do
   gem 'pg'
+  gem 'rack-wwwhisper', '~> 1.0'
 end
 
 group :test do
