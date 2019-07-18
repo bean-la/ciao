@@ -36,7 +36,7 @@
         <td class="text-nowrap">
           <div>
             <strong><%= check.cron %></strong>
-            <span class="small text-muted float-right"><%= "in " + distance_of_time_in_words(Time.current, check.next_contact_at) if check.next_contact_at %>
+            <span class="small text-muted"><%= "in " + distance_of_time_in_words(Time.current, check.next_contact_at) if check.next_contact_at %>
             </span>
           </div>
           <div class="small text-muted">
